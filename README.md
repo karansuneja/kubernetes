@@ -160,7 +160,32 @@ To remove a tain from node.  just append - at end
 kubectl taint node controlplane node-role.kubernetes.io/control-plane:NoSchedule-
 ```
 
-## Documentation
+## Node Selector
+
+to add label on node
+```bash
+kubectl label nodes <nodeName> <labelKey>=<labelValue>
+```
+```bash
+kubectl label nodes node1 size=Large
+```
+in pod definition use nodeSelector under spec
+
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+ name: myapp-pod
+spec:
+ containers:
+ - name: data-processor
+   image: data-processor
+ nodeSelector:
+  size: Large
+```
+
+
+# Documentation
 
 [kubectl-commands](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)
 
