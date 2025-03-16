@@ -184,6 +184,90 @@ spec:
   size: Large
 ```
 
+### Node Affinity
+```
+apiVersion: v1
+kind: Pod
+metadata:
+ name: myapp-pod
+spec:
+ containers:
+ - name: data-processor
+   image: data-processor
+ affinity:
+   nodeAffinity:
+     requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: size
+            operator: In
+            values: 
+            - Large
+            - Medium
+```
+
+Node Affinity Types
+- Available
+  - requiredDuringSchedulingIgnoredDuringExecution
+  - preferredDuringSchedulingIgnoredDuringExecution
+- Planned
+  - requiredDuringSchedulingRequiredDuringExecution
+  - preferredDuringSchedulingRequiredDuringExecution
+
+
+### Resources requests and limits
+
+it places under containers under spec of pod
+
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: simple-webapp-color
+  labels:
+    name: simple-webapp-color
+spec:
+ containers:
+ - name: simple-webapp-color
+   image: simple-webapp-color
+   ports:
+    - containerPort:  8080
+   resources:
+     requests:
+      memory: "1Gi"
+      cpu: "1"
+     limits:
+       memory: "2Gi"
+       cpu: "2"
+```
+
+### LimitRange for pods without requests and limits
+```
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-resource-constraint
+spec:
+  limits:
+  - default: # this section defines default limits
+      cpu: 500m
+    defaultRequest: # this section defines default requests
+      cpu: 500m
+    max: # max and min define the limit range
+      cpu: "1"
+    min:
+      cpu: 100m
+    type: Container
+
+```
+
+use memory instead of cpu to apply limit range in memory
+it only affects newer pods created after applying limit ranges
+
+#### K8s Reference Docs:
+- https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+
 
 # Documentation
 
