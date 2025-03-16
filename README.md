@@ -269,6 +269,20 @@ it only affects newer pods created after applying limit ranges
 - https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 
 
+## if want to use custom scheduler or particular scheduler
+
+```
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: nginx 
+spec:
+  schedulerName: my-scheduler
+  containers:
+  - image: nginx
+    name: nginx
+```
+
 # Documentation
 
 [kubectl-commands](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands)
