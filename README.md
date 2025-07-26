@@ -74,7 +74,7 @@ Both the above commands have their own challenges. While one of it cannot accept
 
 nodeName - Manually scheduling a pod to a node
 
-```bash
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -100,7 +100,7 @@ kubectl get pods -l env=prod,app=nginx
 
 In the file below, the selector under spec and the label under template are the same. This ensures that the Deployment manages the Pods correctly by grouping them together.
 
-```bash
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -139,7 +139,7 @@ Tolerations
 tolerations are applied on pods
 
 tolerations are same value as taints applied , key as key value , operator as operator used, value as value, effect as effect set for taint node.
-```bash
+```yaml
 spec:
  containers:
  - name: nginx-container
@@ -171,7 +171,7 @@ kubectl label nodes node1 size=Large
 ```
 in pod definition use nodeSelector under spec
 
-```bash
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -185,7 +185,7 @@ spec:
 ```
 
 ### Node Affinity
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -220,7 +220,7 @@ Node Affinity Types
 it places under containers under spec of pod
 
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -243,7 +243,7 @@ spec:
 ```
 
 ### LimitRange for pods without requests and limits
-```
+```yaml
 apiVersion: v1
 kind: LimitRange
 metadata:
@@ -268,10 +268,42 @@ it only affects newer pods created after applying limit ranges
 #### K8s Reference Docs:
 - https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
 
+## Priority Class
+
+priority-class.yaml
+```yaml
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority
+value: 1000000000
+description: "Priority class for mission crititcal pods"
+preemtionPolicy: PreemptLowerPriority
+globalDefault: true    # to make it default class (optional)
+```
+
+
+
+pod-definition.yaml
+```yaml
+apiVersion: v1
+kind: pod
+metadata:
+  name: nginx
+  labels:
+    name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports: 
+      - containerPort: 8080
+  priorityClassName: high-priority     # name of the priority class
+```
 
 ## if want to use custom scheduler or particular scheduler
 
-```
+```yaml
 apiVersion: v1 
 kind: Pod 
 metadata:
