@@ -278,7 +278,7 @@ metadata:
   name: high-priority
 value: 1000000000
 description: "Priority class for mission crititcal pods"
-preemtionPolicy: PreemptLowerPriority
+preemptionPolicy: PreemptLowerPriority
 globalDefault: true    # to make it default class (optional)
 ```
 
