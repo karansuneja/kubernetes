@@ -282,7 +282,11 @@ preemtionPolicy: PreemptLowerPriority
 globalDefault: true    # to make it default class (optional)
 ```
 
+This behavior is governed by the preemption policy defined in the priority class assigned to the new workload. If the preemption policy is not set, its default value is PreemptLowerPriority. This means the new higher priority pod will evict existing lower priority pods to take their place.
 
+If you do not want the new pod to evict existing workloads and instead want it to wait for cluster resources to free up, set the preemption policy to Never. A preemption policy set to Never makes pods in that priority class non-preempting, meaning they cannot preempt other pods and will wait in the scheduling queue.
+
+However, these pods still receive higher scheduling priority over other lower priority pods waiting to be scheduled. The priority affects scheduling order, but preemption policy controls whether existing pods are evicted.
 
 pod-definition.yaml
 ```yaml
